@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -15,6 +16,12 @@ namespace PresentationController
 
         public static void Main()
         {
+            PrintHostIP();
+            StartListening();
+        }
+
+        private static void PrintHostIP()
+        {
             var ipList = NetworkInterface.GetAllNetworkInterfaces()
                 .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 .SelectMany(i => i.GetIPProperties().UnicastAddresses)
@@ -22,8 +29,7 @@ namespace PresentationController
                 .Select(a => a.Address.ToString())
                 .ToList();
 
-            Console.WriteLine($"IPs to connect to: {string.Join(", ", ipList)}" );
-            StartListening();
+            Console.WriteLine($"IPs to connect to: {string.Join(", ", ipList)}");
         }
 
         private static void StartListening(int port = 9001)
@@ -65,7 +71,7 @@ namespace PresentationController
                     }
                 }
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 Console.WriteLine(ex.ToString());
                 Console.Read();
