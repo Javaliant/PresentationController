@@ -95,8 +95,8 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                   // out.printf("%s", message);
                     out.print(message);
+                    out.flush();
                 } catch (NullPointerException ex) {
                     debug("Could not send.", ex);
                 }

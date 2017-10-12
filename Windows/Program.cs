@@ -34,9 +34,7 @@ namespace PresentationController
 
         private static void StartListening(int port = 9001)
         {
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            TcpListener server = new TcpListener(ip, port);
-
+            TcpListener server = new TcpListener(IPAddress.Any, port);
             try
             {
                 server.Start();
@@ -53,10 +51,11 @@ namespace PresentationController
                         string message = RetrieveMessage(inputBuffer);
                         switch (message)
                         {
+                            case "":
                             case "die":
                                 client.Close();
                                 active = false;
-                                Console.WriteLine("Client disconnected.\n");
+                                Console.WriteLine("Client disconnected.");
                                 break;
                             case "left":
                                 keyboardSimulator.KeyPress(VirtualKeyCode.LEFT);
